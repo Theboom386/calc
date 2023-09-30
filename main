@@ -1,0 +1,81 @@
+import re
+from typing import Tuple, Optional
+
+def get_inches(feet: int, inches: int) -> int:
+    """Convert feet and inches to total inches."""
+    return feet * 12 + inches
+
+def get_distance_input(prompt: str) -> Optional[Tuple[int, int]]:
+    """Get distance in feet and inches from the user."""
+    try:
+        input_str = input(prompt)
+        values = list(map(int, re.split(r'[ -/.]', input_str)))
+        
+        if len(values) == 1:
+            # User provided only feet, default inches to 0
+            return values[0], 0
+        elif len(values) == 2:
+            # User provided both feet and inches
+            return values[0], values[1]
+        else:
+            print("Invalid input format.")
+            return None
+            
+    except ValueError:
+        print("Invalid input. Enter valid integers for feet and inches separated by space, '-', '/', or '.'.")
+        return None
+
+
+def print_difference(feet1: int, inches1: int, feet2: int, inches2: int, difference: int) -> None:
+    """Print the difference between two distances."""
+    feet1_word = "foot" if feet1 == 1 else "feet"
+    inches1_word = "inch" if inches1 == 1 else "inches"
+    feet2_word = "foot" if feet2 == 1 else "feet"
+    inches2_word = "inch" if inches2 == 1 else "inches"
+    difference_word = "inch" if difference == 1 else "inches"
+
+    # Calculate difference in feet and inches
+    difference_feet = difference // 12
+    difference_inches = difference % 12
+    difference_feet_word = "foot" if difference_feet == 1 else "feet"
+    difference_inches_word = "inch" if difference_inches == 1 else "inches"
+
+    msg = (
+        f"{'First Distance:':<20} {feet1:>2} {feet1_word} {inches1:>2} {inches1_word}\n"
+        f"{'Second Distance:':<20} {feet2:>2} {feet2_word} {inches2:>2} {inches2_word}\n"
+        f"{'Difference in Inches:':<20} {difference:>2} {difference_word}\n"
+        f"{'Difference in Ft-In:':<20} {difference_feet:>2} {difference_feet_word} {difference_inches:>2} {difference_inches_word}"
+    )
+    print(msg)
+
+def calculate_and_print_difference(feet1: int, inches1: int, feet2: int, inches2: int) -> None:
+    """Calculate and print the difference between two distances."""
+    total_inches1 = get_inches(feet1, inches1)
+    total_inches2 = get_inches(feet2, inches2)
+
+    if total_inches1 > total_inches2:
+        print_difference(feet1, inches1, feet2, inches2, total_inches1 - total_inches2)
+    elif total_inches1 < total_inches2:
+        print_difference(feet2, inches2, feet1, inches1, total_inches2 - total_inches1)
+    else:
+        print("Both distances are equal.")
+
+def main():
+    while True:
+        print()  # Extra spacing
+        distance1 = get_distance_input("Enter the first distance (format: 'feet[separator]inches' where separator can be space, '-', '/', or '.'): ")
+        print()  # Extra spacing
+        distance2 = get_distance_input("Enter the second distance (format: 'feet[separator]inches' where separator can be space, '-', '/', or '.'): ")
+        print()  # Extra spacing
+
+        if distance1 is None or distance2 is None:
+            continue
+
+        feet1, inches1 = distance1
+        feet2, inches2 = distance2
+
+        calculate_and_print_difference(feet1, inches1, feet2, inches2)
+        print()  # Extra spacing
+
+if __name__ == "__main__":
+    main()
