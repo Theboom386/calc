@@ -51,7 +51,6 @@ void print_difference(int feet1, int inches1, int feet2, int inches2, int differ
     string inches1_word = (inches1 == 1) ? "inch" : "inches";
     string feet2_word = (feet2 == 1) ? "foot" : "feet";
     string inches2_word = (inches2 == 1) ? "inch" : "inches";
-    string difference_word = (difference == 1) ? "inch" : "inches";
 
     int difference_feet = difference / 12;
     int difference_inches = difference % 12;
@@ -60,8 +59,8 @@ void print_difference(int feet1, int inches1, int feet2, int inches2, int differ
 
     cout << "First Distance: " << feet1 << " " << feet1_word << " " << inches1 << " " << inches1_word << endl;
     cout << "Second Distance: " << feet2 << " " << feet2_word << " " << inches2 << " " << inches2_word << endl;
-    cout << "Difference in Inches: " << difference << " " << difference_word << endl;
     cout << "Difference in Ft-In: " << difference_feet << " " << difference_feet_word << " " << difference_inches << " " << difference_inches_word << endl;
+    cout << "Difference in Inches: " << difference << " " << (difference == 1 ? "inch" : "inches") << endl;
 }
 
 void calculate_and_print_difference(int feet1, int inches1, int feet2, int inches2) {
@@ -94,3 +93,4 @@ int main() {
     }
     return 0;
 }
+
